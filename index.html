@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="sky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bùi Hoàng Linh | AI Engineer</title>
+    <meta name="description" content="Portfolio of Bùi Hoàng Linh, an AI engineer building LLM agents, RAG systems, AI security tools and Vision-Language-Action robot policies.">
+    <meta property="og:title" content="Bùi Hoàng Linh | AI Engineer">
+    <meta property="og:description" content="LLM agents, RAG, AI security and robot learning — projects, research and live GitHub activity.">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        // Apply the saved theme before first paint to avoid a flash of the default palette.
+        try {
+            const theme = localStorage.getItem('pixel-theme');
+            if (theme) document.documentElement.dataset.theme = theme;
+        } catch (error) { /* storage blocked: keep the default theme */ }
+    </script>
+    <script src="js/data.js" defer></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#projects">Skip to projects</a>
+    <div class="stripe stripe--top" aria-hidden="true"></div>
+    <div class="stripe stripe--bottom" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+    <div class="stars" id="stars" aria-hidden="true"></div>
+
+    <div class="container">
+        <header class="site-header">
+            <nav class="nav" aria-label="Sections">
+                <a href="#hero" class="nav-link">[ HOME ]</a>
+                <a href="#projects" class="nav-link">[ PROJECTS ]</a>
+                <a href="#about" class="nav-link">[ ABOUT ]</a>
+                <a href="#stats" class="nav-link">[ STATS ]</a>
+                <a href="#contact" class="nav-link">[ CONTACT ]</a>
+                <button type="button" class="nav-link" id="themeToggle" title="Switch colour theme">[ THEME ]</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- HERO -->
+            <section id="hero" class="section hero" aria-label="Introduction">
+                <span class="corner corner--tl" aria-hidden="true"></span>
+                <span class="corner corner--tr" aria-hidden="true"></span>
+                <div class="hero-content" id="heroContent"></div>
+                <div class="hero-stats" id="heroStats"></div>
+                <span class="corner corner--bl" aria-hidden="true"></span>
+                <span class="corner corner--br" aria-hidden="true"></span>
+            </section>
+
+            <!-- PROJECTS -->
+            <section id="projects" class="section" aria-labelledby="projectsTitle">
+                <h2 class="section-title" id="projectsTitle">[ Featured Projects ]</h2>
+                <div class="projects-grid" id="projectsGrid"></div>
+                <div class="more-repos" id="moreRepos"></div>
+            </section>
+
+            <!-- ABOUT -->
+            <section id="about" class="section" aria-labelledby="aboutTitle">
+                <h2 class="section-title" id="aboutTitle">[ About Me ]</h2>
+                <div class="about-grid" id="aboutGrid"></div>
+            </section>
+
+            <!-- STATS -->
+            <section id="stats" class="section" aria-labelledby="statsTitle">
+                <h2 class="section-title" id="statsTitle">[ By The Numbers ]</h2>
+                <div class="numbers-grid" id="numbersGrid"></div>
+
+                <div class="github-panel" aria-labelledby="githubTitle">
+                    <div class="github-heading">
+                        <div>
+                            <p class="eyebrow">LIVE FROM GITHUB</p>
+                            <h3 id="githubTitle">@github Activity</h3>
+                        </div>
+                        <a href="https://github.com" class="link-btn" id="githubProfileLink" target="_blank" rel="noopener noreferrer">View Profile</a>
+                    </div>
+                    <div class="github-summary" id="githubSummary"></div>
+                    <div class="commit-feed">
+                        <div class="commit-feed-header">
+                            <h4>Recent public commits</h4>
+                            <span class="gh-status" id="githubStatus" role="status">Loading GitHub activity...</span>
+                        </div>
+                        <div class="table-wrap">
+                            <table class="commit-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Repository</th>
+                                        <th scope="col">Commit</th>
+                                        <th scope="col">Message</th>
+                                        <th scope="col">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="commitTableBody">
+                                    <tr><td class="commit-empty" colspan="4">Fetching the latest public activity...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTACT -->
+            <section id="contact" class="section" aria-labelledby="contactTitle">
+                <h2 class="section-title" id="contactTitle">[ Get In Touch ]</h2>
+                <div class="contact-grid" id="contactGrid"></div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>&copy; <span id="currentYear">2026</span> <span id="footerName">Bùi Hoàng Linh</span> | Built with code and pixels.</p>
+        <p>Tip: press 1–5 to jump between sections.</p>
+    </footer>
+</body>
+</html>
