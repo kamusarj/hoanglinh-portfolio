@@ -17,7 +17,7 @@ window.PORTFOLIO = {
         location: 'Vietnam', // TODO: thêm thành phố nếu muốn (vd. Hanoi, Vietnam)
         email: '01232106558linh@gmail.com',
         status: 'Building AI products & researching VLA', // TODO
-        cv: '', // TODO: đặt file PDF vào thư mục gốc rồi ghi tên file, vd. 'BuiHoangLinh_CV.pdf'
+        cv: 'BuiHoangLinh_CV.pdf',
         socials: [
             { label: 'GITHUB', url: 'https://github.com/kamusarj' },
             { label: 'HUGGING FACE', url: 'https://huggingface.co/kamusarj' },
