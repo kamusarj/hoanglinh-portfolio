@@ -4,15 +4,27 @@ import { generateCode, normalizeCode, formatCode, parsePacket, MAX_TEXT_LENGTH, 
 
 const entry = () => ({ id: crypto.randomUUID(), author: 'device-123', text: 'Xin chào 👋\n<script>alert(1)</script>', timestamp: Date.now() });
 
-test('room codes normalize grouping and case without accepting arbitrary IDs', () => {
-    assert.equal(normalizeCode('abcd-efgh-jklm'), 'ABCDEFGHJKLM');
-    assert.equal(formatCode('ABCDEFGHJKLM'), 'ABCD-EFGH-JKLM');
-    for (const invalid of ['ABC', 'ABCD-EFGH-JKLO', 'ABCD-EFGH-JKL0', '<script>xxx</script>', null]) {
+test('room codes require exactly six digits and preserve leading zeroes', () => {
+    assert.equal(normalizeCode(' 001234 '), '001234');
+    assert.equal(normalizeCode('000000'), '000000');
+    assert.equal(formatCode('001234'), '001234');
+    for (const invalid of ['12345', '1234567', '123ABC', '123-456', '１２３４５６', '<script>xxx</script>', null, 123456]) {
         assert.equal(normalizeCode(invalid), '');
     }
-    const codes = new Set(Array.from({ length: 1000 }, generateCode));
-    assert.equal(codes.size, 1000);
-    for (const code of codes) assert.equal(normalizeCode(code), code);
+    for (let i = 0; i < 1000; i++) assert.match(generateCode(), /^\d{6}$/);
+});
+
+test('code generation covers leading zeroes and rejects biased random samples', (t) => {
+    const samples = [0, 42, 999999, 4_294_000_000, 123456];
+    t.mock.method(crypto, 'getRandomValues', (array) => {
+        array[0] = samples.shift();
+        return array;
+    });
+    assert.equal(generateCode(), '000000');
+    assert.equal(generateCode(), '000042');
+    assert.equal(generateCode(), '999999');
+    assert.equal(generateCode(), '123456');
+    assert.equal(samples.length, 0);
 });
 
 test('packets preserve Unicode, whitespace and markup as plain text', () => {

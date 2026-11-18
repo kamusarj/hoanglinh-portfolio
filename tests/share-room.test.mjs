@@ -182,10 +182,51 @@ test('the device limit excludes pending and rejected connections from presence',
     assert.equal(host.devices, MAX_DEVICES);
 });
 
+test('an occupied generated code is retried without affecting the existing room', async (t) => {
+    const make = roomsFor(t);
+    const samples = [42, 42, 43];
+    t.mock.method(crypto, 'getRandomValues', (array) => {
+        array[0] = samples.shift();
+        return array;
+    });
+    const first = make();
+    const second = make();
+    first.create();
+    second.create();
+    await until(first, () => first.status === 'waiting');
+    await until(second, () => second.status === 'waiting');
+    assert.equal(first.code, '000042');
+    assert.equal(second.code, '000043');
+    await first.send('Only in the first room');
+    const guest = make();
+    guest.join('000042');
+    await until(guest, () => guest.status === 'connected');
+    assert.equal(guest.entries[0].text, 'Only in the first room');
+    assert.equal(second.entries.length, 0);
+    assert.equal(first.devices, 2);
+    assert.equal(second.devices, 1);
+});
+
+test('repeated code collisions stop with a recoverable error', async (t) => {
+    const make = roomsFor(t);
+    t.mock.method(crypto, 'getRandomValues', (array) => {
+        array[0] = 123456;
+        return array;
+    });
+    const first = make();
+    first.create();
+    await until(first, () => first.status === 'waiting');
+    const second = make();
+    second.create();
+    await until(second, () => second.status === 'error');
+    assert.match(second.error, /Mã phòng đang được dùng/);
+    assert.equal(first.status, 'waiting');
+});
+
 test('invalid input and stale callbacks cannot change a new room session', async (t) => {
     const make = roomsFor(t);
     const host = make();
-    assert.throws(() => host.join('invalid'), /12 chữ hoặc số/);
+    assert.throws(() => host.join('invalid'), /6 chữ số/);
     host.create();
     await until(host, () => host.status === 'waiting');
     await assert.rejects(host.send('  \n'), /Nhập văn bản/);

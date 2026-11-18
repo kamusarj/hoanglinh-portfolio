@@ -1,22 +1,25 @@
 export const MAX_TEXT_LENGTH = 20_000;
 export const MAX_HISTORY = 20;
 export const MAX_DEVICES = 6;
-const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const MAX_CODE_ATTEMPTS = 5;
 const PREFIX = 'hoanglinh-text-v1-';
 const PROTOCOL = 'hoanglinh-text-v1';
 
 export function normalizeCode(value) {
     if (typeof value !== 'string') return '';
-    const code = value.toUpperCase().replace(/[\s-]/g, '');
-    return /^[A-HJ-NP-Z2-9]{12}$/.test(code) ? code : '';
+    const code = value.trim();
+    return /^\d{6}$/.test(code) ? code : '';
 }
 
 export function formatCode(value) {
-    return normalizeCode(value).match(/.{4}/g)?.join('-') || '';
+    return normalizeCode(value);
 }
 
 export function generateCode() {
-    return Array.from(crypto.getRandomValues(new Uint8Array(12)), (byte) => ALPHABET[byte & 31]).join('');
+    const value = new Uint32Array(1);
+    // Reject the incomplete final range so every six-digit code is equally likely.
+    do { crypto.getRandomValues(value); } while (value[0] >= 4_294_000_000);
+    return String(value[0] % 1_000_000).padStart(6, '0');
 }
 
 export function validEntry(entry) {
@@ -87,12 +90,12 @@ export class TextRoom extends EventTarget {
     }
 
     create() {
-        this.start('host', generateCode());
+        this.start('host', generateCode(), [], MAX_CODE_ATTEMPTS - 1);
     }
 
     join(value) {
         const code = normalizeCode(value);
-        if (!code) throw new Error('Mã phòng gồm 12 chữ hoặc số, ví dụ ABCD-EFGH-JKLM. Kiểm tra lại mã trên thiết bị tạo phòng.');
+        if (!code) throw new Error('Mã phòng gồm đúng 6 chữ số, ví dụ 012345. Kiểm tra lại mã trên thiết bị tạo phòng.');
         this.start('guest', code);
     }
 
@@ -129,7 +132,7 @@ export class TextRoom extends EventTarget {
         this.emit('change');
     }
 
-    start(role, code, entries = []) {
+    start(role, code, entries = [], codeRetries = 0) {
         if (typeof this.PeerConstructor !== 'function') {
             throw new Error('Không tải được công cụ kết nối. Tải lại trang rồi thử lại.');
         }
@@ -179,6 +182,10 @@ export class TextRoom extends EventTarget {
             if (error.type === 'peer-unavailable') {
                 this.fail('Không tìm thấy phòng. Kiểm tra mã và giữ trang mở trên thiết bị tạo phòng.');
             } else if (error.type === 'unavailable-id') {
+                if (role === 'host' && this.status === 'connecting' && codeRetries > 0) {
+                    this.start('host', generateCode(), [], codeRetries - 1);
+                    return;
+                }
                 this.fail('Mã phòng đang được dùng ở phiên khác. Rời phòng rồi tạo một phòng mới.');
             } else if (this.openConnections().length && !peer.destroyed) {
                 // Established data channels survive a signaling outage.

@@ -19,7 +19,11 @@ Each message accepts up to 20,000 UTF-16 code units, matching a textarea's
 phòng** / **Rời phòng** clears that page's room history. Text is never persisted
 in localStorage, a database or the URL. Only the color theme is stored locally.
 
-Room codes are twelve cryptographically random base-32 characters (60 bits).
+Room codes are six cryptographically random digits, including leading zeroes.
+PeerJS reserves a code for its active creator. When another creator draws the
+same code, the app automatically retries with a new one (up to five attempts)
+instead of creating a second room with the same code. Codes can be reused after
+the previous creator closes the room and the signaling service releases its ID.
 Anyone with the code or link can enter the room. Invitation codes use a URL
 fragment, and the sharing page disables referrers.
 
