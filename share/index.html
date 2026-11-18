@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="sky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="Chia sẻ văn bản trực tiếp giữa máy tính, điện thoại và các thiết bị bằng một mã phòng. Không cần tài khoản.">
+    <title>Share Text | Bùi Hoàng Linh</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/share.css">
+    <script>
+        try {
+            const theme = localStorage.getItem('pixel-theme');
+            if (theme) document.documentElement.dataset.theme = theme;
+        } catch (error) { /* Use the default theme when storage is unavailable. */ }
+    </script>
+    <script src="../js/vendor/peerjs-1.5.5.min.js" defer></script>
+    <script src="../js/share.js" type="module"></script>
+</head>
+<body class="share-page">
+    <a class="skip-link" href="#workspace">Đến công cụ chia sẻ</a>
+    <div class="stripe stripe--top" aria-hidden="true"></div>
+    <div class="stripe stripe--bottom" aria-hidden="true"></div>
+
+    <div class="container">
+        <header class="site-header">
+            <nav class="nav" aria-label="Điều hướng">
+                <a href="../" class="nav-link">[ PORTFOLIO ]</a>
+                <a href="./" class="nav-link is-active" aria-current="page">[ SHARE TEXT ]</a>
+                <button type="button" class="nav-link" id="themeToggle" title="Đổi giao diện">[ THEME ]</button>
+            </nav>
+        </header>
+
+        <main id="workspace">
+            <section class="share-intro" aria-labelledby="pageTitle">
+                <div>
+                    <h1 id="pageTitle">[ SHARE TEXT ]</h1>
+                    <p class="share-tagline">Text ở đây. Có ngay ở kia.</p>
+                    <p>Từ máy tính sang điện thoại, hay ngược lại.<br>Tạo phòng, kết nối thiết bị và gửi văn bản.</p>
+                </div>
+                <svg class="device-art" viewBox="0 0 224 112" fill="none" aria-hidden="true" shape-rendering="crispEdges">
+                    <path d="M8 12h92v64H8z" fill="var(--surface-solid)" stroke="var(--ink)" stroke-width="4"/>
+                    <path d="M16 20h76v48H16z" fill="var(--accent)"/>
+                    <path d="M43 76h22v12H43zM24 88h60v6H24z" fill="var(--ink)"/>
+                    <path d="M30 35h36M30 43h47M30 51h26" stroke="var(--primary)" stroke-width="4"/>
+                    <path d="M110 45h44m-8-8 8 8-8 8M154 64h-44m8-8-8 8 8 8" stroke="var(--primary)" stroke-width="4"/>
+                    <path d="M168 8h46v88h-46z" fill="var(--surface-solid)" stroke="var(--ink)" stroke-width="4"/>
+                    <path d="M174 20h34v60h-34z" fill="var(--accent)"/>
+                    <path d="M179 37h22M179 45h18M179 53h22" stroke="var(--primary)" stroke-width="4"/>
+                    <path d="M187 86h8" stroke="var(--ink)" stroke-width="4"/>
+                    <path d="M111 16h6v6h-6zM142 90h6v6h-6z" fill="var(--spark)"/>
+                </svg>
+            </section>
+
+            <div class="share-layout">
+                <aside class="connection-panel" aria-label="Kết nối thiết bị">
+                    <div class="panel-topline"><span class="pixel-label">CONNECTION</span><span class="status-dot" id="statusDot" aria-hidden="true"></span></div>
+                    <p id="connectionStatus" class="connection-status" role="status" aria-live="polite">Chưa kết nối</p>
+
+                    <div id="setupPanel">
+                        <p class="field-help">Bắt đầu trên thiết bị này</p>
+                        <button type="button" class="btn btn-primary full-width" id="createRoom">[ TAO PHONG MOI ]</button>
+                        <div class="join-divider"><span>hoặc vào phòng có sẵn</span></div>
+                        <form id="joinForm">
+                            <label for="roomInput">Mã phòng</label>
+                            <input id="roomInput" name="room" type="text" class="room-input" placeholder="XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="14" aria-describedby="roomInputHelp" required>
+                            <p id="roomInputHelp" class="field-help">Nhập mã từ thiết bị tạo phòng.</p>
+                            <button type="submit" class="btn btn-secondary full-width" id="joinRoom">[ VAO PHONG ]</button>
+                        </form>
+                    </div>
+
+                    <div id="roomPanel" hidden>
+                        <p class="field-label">Mã phòng của bạn</p>
+                        <output id="roomCode" class="room-code" aria-label="Mã phòng"></output>
+                        <p id="deviceCount" class="device-count">1 thiết bị trong phòng</p>
+                        <div class="room-actions">
+                            <button type="button" class="utility-button" id="copyCode">Sao chép mã</button>
+                            <button type="button" class="utility-button" id="copyLink">Sao chép link</button>
+                        </div>
+                        <p id="roomHint" class="room-hint">Mở Share Text trên thiết bị khác rồi nhập mã, hoặc mở link phòng.</p>
+                        <button type="button" class="btn btn-secondary full-width" id="retryRoom" hidden>[ KET NOI LAI ]</button>
+                        <button type="button" class="leave-button" id="leaveRoom">Rời phòng</button>
+                    </div>
+
+                    <p class="share-error" id="connectionError" role="alert" hidden></p>
+                    <div class="connection-note">
+                        <span class="pixel-label">KEEP BOTH TABS OPEN</span>
+                        <p>Giữ trang mở trên các thiết bị. Người có mã hoặc link có thể vào phòng. Nội dung chỉ giữ trong phiên, không lưu để đọc lại khi phòng đóng.</p>
+                    </div>
+                </aside>
+
+                <div class="text-workspace">
+                    <section class="compose-panel" aria-labelledby="composeTitle">
+                        <div class="panel-topline"><h2 id="composeTitle">Văn bản muốn gửi</h2><span class="pixel-label" aria-hidden="true">OUTBOX</span></div>
+                        <form id="sendForm">
+                            <label class="sr-only" for="textInput">Nhập văn bản muốn chia sẻ</label>
+                            <textarea id="textInput" name="text" rows="8" maxlength="20000" spellcheck="false" placeholder="Dán một đường link, đoạn code, ghi chú…" aria-describedby="composeHelp" disabled></textarea>
+                            <div class="compose-toolbar">
+                                <p id="characterCount">0 / 20.000 ký tự</p>
+                                <button type="submit" class="btn btn-primary" id="sendText" disabled>[ GUI TEXT ]</button>
+                            </div>
+                            <p id="composeHelp" class="field-help">Tạo hoặc vào phòng để bắt đầu. Ctrl / ⌘ + Enter để gửi.</p>
+                        </form>
+                        <p id="sendStatus" class="action-status" role="status" aria-live="polite"></p>
+                    </section>
+
+                    <section class="received-panel" aria-labelledby="receivedTitle">
+                        <div class="panel-topline"><h2 id="receivedTitle">Text trong phòng</h2><span id="messageCount" class="message-count">0 đoạn</span></div>
+                        <div id="emptyMessages" class="empty-messages">
+                            <span class="empty-icon" aria-hidden="true">[ … ]</span>
+                            <p>Chờ đoạn text đầu tiên</p>
+                            <p>Text đã gửi sẽ hiện ở đây trên các thiết bị.<br>Bấm “Sao chép” để dùng ngay.</p>
+                        </div>
+                        <div id="messageList" class="message-list" aria-live="polite" aria-relevant="additions"></div>
+                    </section>
+                </div>
+            </div>
+            <p id="copyStatus" class="copy-status" role="status" aria-live="polite"></p>
+            <noscript><p class="share-error">Bật JavaScript trong trình duyệt để kết nối và chia sẻ text.</p></noscript>
+        </main>
+
+        <footer class="share-footer"><a href="../">← Về portfolio của Hoàng Linh</a><p>Không tài khoản · Không cài ứng dụng · Tối đa 6 thiết bị</p></footer>
+    </div>
+</body>
+</html>

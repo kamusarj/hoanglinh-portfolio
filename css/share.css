@@ -1,0 +1,103 @@
+/* Shares the portfolio's six color themes; Vietnamese text uses a full Unicode font. */
+.share-page {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.share-page [hidden] { display: none !important; }
+.share-page .site-header { margin-bottom: 40px; }
+.share-page .nav { justify-content: space-between; }
+.share-page .nav::before, .share-page .nav::after { display: none; }
+.share-page .btn { min-height: 46px; }
+.share-page button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: 2px 2px 0 var(--ink); }
+.share-page button:disabled::before { display: none; }
+.share-page :is(button, a, input, textarea):focus-visible { outline: 3px solid var(--primary-ink); outline-offset: 4px; }
+.share-page .full-width { width: 100%; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+.share-intro { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 6px 12px 40px; }
+.share-intro h1 { font-family: var(--font-pixel); font-size: clamp(19px, 3vw, 28px); line-height: 1.6; color: var(--primary-ink); }
+.share-intro .share-tagline { margin: 16px 0 6px; color: var(--ink); font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -0.8px; }
+.share-intro p { color: var(--muted); }
+.device-art { width: 224px; flex-shrink: 0; margin-right: 20px; }
+.share-layout { display: grid; grid-template-columns: 310px minmax(0, 1fr); align-items: start; gap: 24px; }
+.connection-panel, .compose-panel, .received-panel { background: var(--surface-solid); border: 3px solid var(--border); box-shadow: 5px 5px 0 var(--shadow); }
+.connection-panel { padding: 24px; border-top: 5px solid var(--primary); }
+.text-workspace { display: grid; gap: 24px; min-width: 0; }
+.compose-panel, .received-panel { padding: 24px; }
+.panel-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.panel-topline h2 { font-size: 17px; font-weight: 650; line-height: 1.4; }
+.pixel-label { font-family: var(--font-pixel); color: var(--muted); font-size: 8px; line-height: 1.9; letter-spacing: 0.5px; }
+.status-dot { width: 10px; height: 10px; background: var(--muted); box-shadow: 3px 3px 0 var(--shadow); flex-shrink: 0; }
+.status-dot[data-state="connected"] { background: var(--success); }
+.status-dot[data-state="waiting"], .status-dot[data-state="connecting"] { background: var(--spark); }
+.status-dot[data-state="error"], .status-dot[data-state="disconnected"] { background: #dc2626; }
+.connection-status { color: var(--primary-ink); font-size: 19px; font-weight: 650; margin-bottom: 20px; }
+.field-help { color: var(--muted); font-size: 12px; line-height: 1.6; }
+#setupPanel > .field-help { margin-bottom: 10px; }
+.join-divider { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; margin: 24px 0 18px; }
+.join-divider::before, .join-divider::after { content: ''; height: 1px; background: var(--border); flex: 1; }
+#joinForm label, .field-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.room-input { width: 100%; min-height: 46px; padding: 10px; font-family: ui-monospace, monospace; font-size: 16px; text-transform: uppercase; background: var(--bg); color: var(--ink); border: 2px solid var(--border); border-radius: 0; }
+#roomInputHelp { margin: 8px 0 16px; }
+.room-code { display: block; font-family: ui-monospace, monospace; font-size: 21px; font-weight: 700; letter-spacing: 0.8px; color: var(--primary-ink); overflow-wrap: anywhere; }
+.device-count { margin: 8px 0 18px; font-size: 13px; color: var(--success); }
+.room-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.utility-button { min-height: 38px; padding: 7px 10px; font: inherit; font-size: 12px; font-weight: 600; color: var(--primary-ink); background: var(--accent); border: 2px solid var(--border); cursor: pointer; }
+.utility-button:hover { border-color: var(--primary); }
+.room-hint { margin: 16px 0; font-size: 12px; color: var(--muted); }
+.leave-button { display: block; margin: 18px auto 0; padding: 8px; font: inherit; font-size: 13px; color: var(--muted); text-decoration: underline; text-underline-offset: 4px; background: none; border: 0; cursor: pointer; }
+.connection-note { margin-top: 24px; padding-top: 20px; border-top: 2px dashed var(--border); }
+.connection-note p { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.8; }
+.share-error { margin-top: 16px; padding: 12px; border: 2px solid #dc2626; color: var(--ink); background: color-mix(in srgb, #dc2626 7%, var(--surface-solid)); font-size: 13px; overflow-wrap: anywhere; }
+#textInput { display: block; width: 100%; min-height: 200px; padding: 16px; color: var(--ink); background: var(--bg); font: 14px/1.7 ui-monospace, 'SFMono-Regular', Consolas, monospace; border: 2px solid var(--border); border-radius: 0; resize: vertical; tab-size: 4; }
+#textInput:disabled { opacity: 0.6; }
+#textInput::placeholder { color: var(--muted); }
+.compose-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 16px 0 12px; }
+#characterCount { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.action-status { min-height: 0; font-size: 13px; color: var(--success); }
+.action-status:not(:empty) { margin-top: 12px; }
+.message-count { font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.empty-messages { padding: 16px 0 22px; text-align: center; }
+.empty-icon { display: inline-block; margin: 0 0 12px; color: var(--primary-ink); font-family: var(--font-pixel); font-size: 22px; }
+.empty-messages p { font-weight: 600; font-size: 14px; }
+.empty-messages p + p { margin-top: 8px; color: var(--muted); font-size: 12px; font-weight: 400; }
+.message-list { display: grid; gap: 16px; }
+.text-message { min-width: 0; border: 2px solid var(--border); }
+.message-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; background: var(--accent); font-size: 12px; }
+.message-meta time { margin-left: 8px; color: var(--muted); font-size: 11px; }
+.message-meta .utility-button { background: var(--surface-solid); min-height: 32px; padding: 4px 10px; }
+.text-message pre { max-height: 340px; padding: 14px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); font: 13px/1.7 ui-monospace, 'SFMono-Regular', Consolas, monospace; tab-size: 4; }
+.copy-status { min-height: 28px; margin: 20px 0 0; font-size: 13px; color: var(--primary-ink); text-align: center; }
+.share-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 22px 0 36px; border-top: 2px dashed var(--border); color: var(--muted); font-size: 12px; }
+.share-footer a { color: var(--primary-ink); text-underline-offset: 4px; }
+
+@media (max-width: 900px) {
+    .share-layout { grid-template-columns: 280px minmax(0, 1fr); gap: 18px; }
+    .connection-panel, .compose-panel, .received-panel { padding: 20px; }
+    .room-code { font-size: 19px; letter-spacing: 0; }
+}
+
+@media (max-width: 700px) {
+    .share-page .site-header { position: relative; top: 0; margin-bottom: 28px; }
+    .share-intro { padding: 0 6px 28px; }
+    .device-art { width: 120px; margin-right: 0; }
+    .share-intro .share-tagline { font-size: 21px; letter-spacing: -0.5px; }
+    .share-intro p { font-size: 12px; }
+    .share-layout { grid-template-columns: minmax(0, 1fr); }
+    .room-code { font-size: 24px; letter-spacing: 2px; }
+    .text-workspace { gap: 18px; }
+    .connection-note { margin-top: 20px; padding-top: 16px; }
+    .connection-note .pixel-label { display: none; }
+    .connection-note p { margin: 0; }
+    #textInput { min-height: 180px; font-size: 16px; }
+}
+
+@media (max-width: 420px) {
+    .device-art { display: none; }
+    .share-intro h1 { font-size: 22px; }
+    .compose-toolbar .btn { width: 100%; }
+    .compose-toolbar { gap: 10px; }
+    .panel-topline .pixel-label { font-size: 7px; }
+}
